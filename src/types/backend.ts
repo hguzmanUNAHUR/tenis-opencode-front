@@ -92,6 +92,7 @@ export interface CreateTournamentDto {
   endDate: string;
   maxParticipants: number;
   genderRestriction?: 'MALE' | 'FEMALE';
+  status?: TournamentStatus;
 }
 
 export interface UpdateTournamentDto {
@@ -103,4 +104,24 @@ export interface UpdateTournamentDto {
   status?: TournamentStatus;
   maxParticipants?: number;
   genderRestriction?: 'MALE' | 'FEMALE' | null;
+}
+
+export const RegistrationStatus = {
+  CONFIRMED: 'CONFIRMED',
+  CANCELLED: 'CANCELLED',
+  WITHDRAWN: 'WITHDRAWN',
+} as const;
+export type RegistrationStatus = typeof RegistrationStatus[keyof typeof RegistrationStatus];
+
+export interface Registration {
+  id: number;
+  tournamentId: number;
+  playerId: number;
+  status: RegistrationStatus;
+  registeredAt: string;
+  updatedAt: string;
+}
+
+export interface CreateRegistrationDto {
+  playerId: number;
 }

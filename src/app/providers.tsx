@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { PlayersPage } from '../features/players/PlayersPage';
 import { TournamentsPage } from '../features/tournaments/TournamentsPage';
+import { RegistrationsPage } from '../features/registrations/RegistrationsPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,6 +19,7 @@ export function AppProviders() {
           <Route path="/inicio" element={<Navigate to="/players" replace />} />
           <Route path="/players" element={<PlayersPage />} />
           <Route path="/tournaments" element={<TournamentsPage />} />
+          <Route path="/registrations" element={<RegistrationsPage />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
