@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Link, useLocation } from 'react-router-dom';
 import { playersApi } from '../../shared/api/endpoints';
 import type { Player, CreatePlayerDto } from '../../types/backend';
 
@@ -17,6 +18,7 @@ const COLORS = {
 
 export function PlayersPage() {
   const queryClient = useQueryClient();
+  const location = useLocation();
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('Todos');
   const [sortBy, setSortBy] = useState('Ranking');
@@ -138,16 +140,20 @@ export function PlayersPage() {
           <div style={styles.logoText}>Ace<em>Manager</em></div>
         </div>
         <div style={styles.navLinks}>
-          {['Inicio', 'Torneos', 'Jugadores', 'Rankings'].map((link) => (
-            <button
-              key={link}
+          {[
+            { label: 'Jugadores', path: '/players' },
+            { label: 'Torneos', path: '/tournaments' },
+          ].map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
               style={{
                 ...styles.navLink,
-                ...(link === 'Jugadores' ? styles.navLinkActive : {}),
+                ...(location.pathname === link.path ? styles.navLinkActive : {}),
               }}
             >
-              {link}
-            </button>
+              {link.label}
+            </Link>
           ))}
         </div>
       </nav>
