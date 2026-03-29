@@ -92,6 +92,7 @@ export interface CreateTournamentDto {
   endDate: string;
   maxParticipants: number;
   genderRestriction?: 'MALE' | 'FEMALE';
+  status?: TournamentStatus;
 }
 
 export interface UpdateTournamentDto {
