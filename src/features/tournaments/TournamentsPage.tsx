@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Link, useLocation } from 'react-router-dom';
 import { tournamentsApi } from '../../shared/api/endpoints';
 import type { Tournament, CreateTournamentDto, TournamentStatus } from '../../types/backend';
 
@@ -33,6 +34,7 @@ const COLORS = {
 
 export function TournamentsPage() {
   const queryClient = useQueryClient();
+  const location = useLocation();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('Todos');
   const [sortBy, setSortBy] = useState('Fecha');
@@ -43,7 +45,7 @@ export function TournamentsPage() {
   const pageSize = 10;
 
   const { data: tournaments = [], isLoading } = useQuery({
-    queryKey: ['tournaments'],
+    queryKey: ['tournaments', statusFilter],
     queryFn: () => tournamentsApi.getAll(statusFilter === 'Todos' ? undefined : statusFilter),
   });
 
@@ -124,16 +126,20 @@ export function TournamentsPage() {
           <div style={styles.logoText}>Ace<em>Manager</em></div>
         </div>
         <div style={styles.navLinks}>
-          {['Inicio', 'Torneos', 'Jugadores', 'Rankings'].map((link) => (
-            <button
-              key={link}
+          {[
+            { label: 'Jugadores', path: '/players' },
+            { label: 'Torneos', path: '/tournaments' },
+          ].map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
               style={{
                 ...styles.navLink,
-                ...(link === 'Torneos' ? styles.navLinkActive : {}),
+                ...(location.pathname === link.path ? styles.navLinkActive : {}),
               }}
             >
-              {link}
-            </button>
+              {link.label}
+            </Link>
           ))}
         </div>
       </nav>
